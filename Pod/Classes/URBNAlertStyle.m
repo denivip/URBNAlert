@@ -26,6 +26,10 @@
     return _titleFont ?: [UIFont boldSystemFontOfSize:14];
 }
 
+- (UIColor *)titleBackgroundColor {
+    return _titleBackgroundColor ?: nil;
+}
+
 - (NSTextAlignment)titleAlignment {
     return _titleAlignment ?: NSTextAlignmentCenter;
 }
@@ -85,8 +89,20 @@
     return _buttonCornerRadius ?: @8;
 }
 
+- (NSNumber *)buttonBorderWidth {
+    return _buttonBorderWidth ?: @0;
+}
+
+- (UIColor *)buttonBorderColor {
+    return _buttonBorderColor ?: [UIColor clearColor];
+}
+
 - (NSNumber *)buttonHeight {
     return _buttonHeight ?: @44;
+}
+
+- (NSNumber *)buttonAlignVertically {
+    return _buttonAlignVertically ?: @0;
 }
 
 // TODO: Delete when buttonHorizontalMargin property goes away
@@ -129,6 +145,10 @@
 
 - (NSNumber *)sectionVerticalMargin {
     return _sectionVerticalMargin ?: @24;
+}
+
+- (NSNumber *)messageVerticalMargin {
+    return _messageVerticalMargin ?: @0;
 }
 
 - (NSNumber *)labelHorizontalMargin {
@@ -267,16 +287,20 @@
     styler.titleColor = self.titleColor;
     styler.messageColor = self.messageColor;
     styler.titleFont = self.titleFont;
+    styler.titleBackgroundColor = self.titleBackgroundColor;
     styler.titleAlignment = self.titleAlignment;
     styler.messageFont = self.messageFont;
     styler.messageAlignment = self.messageAlignment;
     styler.buttonFont = self.buttonFont;
     styler.buttonCornerRadius = self.buttonCornerRadius;
+    styler.buttonBorderWidth = self.buttonBorderWidth;
+    styler.buttonBorderColor = self.buttonBorderColor;
     styler.alertCornerRadius = self.alertCornerRadius;
     styler.textFieldMaxLength = self.textFieldMaxLength;
     styler.textFieldVerticalMargin = self.textFieldVerticalMargin;
     styler.textFieldEdgeInsets = self.textFieldEdgeInsets;
     styler.buttonHeight = self.buttonHeight;
+    styler.buttonAlignVertically = self.buttonAlignVertically;
     
     styler.buttonShadowOpacity = self.buttonShadowOpacity;
     styler.buttonShadowRadius = self.buttonShadowRadius;
@@ -284,6 +308,7 @@
     styler.buttonShadowOffset = self.buttonShadowOffset;
     
     styler.sectionVerticalMargin = self.sectionVerticalMargin;
+    styler.messageVerticalMargin = self.messageVerticalMargin;
     styler.labelHorizontalMargin = self.labelHorizontalMargin;
     styler.buttonMarginEdgeInsets = self.buttonMarginEdgeInsets;
     styler.buttontnEdgeInsetsString = self.buttontnEdgeInsetsString;

@@ -10,10 +10,10 @@
 #import "URBNAlertController.h"
 #import "URBNAlertConfig.h"
 #import "URBNAlertAction.h"
-#import <URBNConvenience/UITextField+URBNLoadingIndicator.h>
-#import <URBNConvenience/UIView+URBNLayout.h>
-#import <URBNConvenience/URBNMacros.h>
-#import <URBNConvenience/URBNTextField.h>
+#import "URBNConvenience/UITextField+URBNLoadingIndicator.h"
+#import "URBNConvenience/UIView+URBNLayout.h"
+#import "URBNConvenience/URBNMacros.h"
+#import "URBNConvenience/URBNTextField.h"
 
 @implementation URBNAlertActionButton
 
@@ -25,6 +25,7 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
 
 @property (nonatomic, strong) URBNAlertConfig *alertConfig;
 @property (nonatomic, strong) URBNAlertStyle *alertStyler;
+@property (nonatomic, strong) UIView *titleBgView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITextView *messageTextView;
 @property (nonatomic, strong) UILabel *errorLabel;
@@ -59,12 +60,13 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
         UIView *buttonContainer = [UIView new];
         NSDictionary *views;
         
+        [self addSubview:self.titleBgView];
         [self addSubview:self.titleLabel];
         [self addSubview:self.messageTextView];
         [self addSubview:self.errorLabel];
         [self addSubview:self.customView];
         
-        NSMutableDictionary *mutableViews = [NSMutableDictionary dictionaryWithDictionary:@{@"_customView" : _customView, @"_titleLabel" : _titleLabel, @"_messageTextView" : _messageTextView, @"buttonContainer" : buttonContainer, @"_errorLabel" : _errorLabel}];
+        NSMutableDictionary *mutableViews = [NSMutableDictionary dictionaryWithDictionary:@{@"_customView" : _customView, @"_titleLabel" : _titleLabel, @"_titleBgView": _titleBgView, @"_messageTextView" : _messageTextView, @"buttonContainer" : buttonContainer, @"_errorLabel" : _errorLabel}];
         
         if (self.alertConfig.inputs && self.alertConfig.inputs.count > 0) {
             __weak typeof(self) weakSelf = self;
@@ -98,7 +100,7 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
         
         // Handle if no title or messages, give 0 margins
         NSNumber *titleMargin = self.alertConfig.title.length > 0 ? self.alertStyler.sectionVerticalMargin : @0;
-        NSNumber *msgMargin = self.alertConfig.message.length > 0 ? self.alertStyler.sectionVerticalMargin : @0;
+        NSNumber *msgMargin = self.alertConfig.message.length > 0 ? @([self.alertStyler.sectionVerticalMargin floatValue]+[self.alertStyler.messageVerticalMargin floatValue]) : @0;
         
         if (titleMargin.floatValue > 0) {
             self.sectionCount++;
@@ -158,13 +160,20 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
         }
         else if (self.buttons.count == 2) {
             self.sectionCount++;
-            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-[btnTwo(==btnOne)]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1]}]];
-            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
-            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnTwo(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            if([self.alertStyler.buttonAlignVertically intValue] == 0){
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-[btnTwo(==btnOne)]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1]}]];
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnTwo(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            }else{
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-[btnTwo(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1]}]];
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
+                [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            }
         }
         // TODO: Handle 3+ buttons with a vertical layout
         
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[buttonContainer]|" options:0 metrics:metrics views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_titleBgView]|" options:0 metrics:metrics views:views]];
         
         // If passive alert & a passive action was added, need call back when alertview is touched
         if (!self.alertConfig.isActiveAlert && self.alertConfig.actions.count > 0) {
@@ -215,9 +224,35 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
     self.layer.shadowOpacity = self.alertStyler.alertViewShadowOpacity.floatValue;
     self.layer.shadowRadius = self.alertStyler.alertViewShadowRadius.floatValue;
     [self.layer setActions:@{@"shadowPath" : [NSNull null]}];
+    
+    // rounding title BG
+    CGRect tbgf = self.titleBgView.frame;
+    CGFloat tbgf_h = self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height+([self.alertStyler.sectionVerticalMargin floatValue]);
+    tbgf = CGRectMake(tbgf.origin.x, 0, tbgf.size.width, tbgf_h);
+    self.titleBgView.frame = tbgf;
+    UIBezierPath *maskPath;
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:_titleBgView.bounds
+                                     byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight)
+                                           cornerRadii:CGSizeMake(self.alertStyler.alertCornerRadius.floatValue, self.alertStyler.alertCornerRadius.floatValue)];
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.bounds;
+    maskLayer.path = maskPath.CGPath;
+    _titleBgView.layer.mask = maskLayer;
 }
 
 #pragma mark - Getters
+
+- (UIView *)titleBgView {
+    if (!_titleBgView) {
+        _titleBgView = [UIView new];
+        _titleBgView.translatesAutoresizingMaskIntoConstraints = NO;
+        _titleBgView.backgroundColor = self.alertStyler.titleBackgroundColor;
+        //_titleBgView.layer.cornerRadius = self.alertStyler.alertCornerRadius.floatValue;
+    }
+    return _titleBgView;
+}
+
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
@@ -280,6 +315,8 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
     btn.backgroundColor = bgColor;
     btn.titleLabel.font = self.alertStyler.buttonFont;
     btn.layer.cornerRadius = self.alertStyler.buttonCornerRadius.floatValue;
+    btn.layer.borderWidth = self.alertStyler.buttonBorderWidth.floatValue;
+    btn.layer.borderColor = self.alertStyler.buttonBorderColor.CGColor;
     btn.layer.shadowColor = self.alertStyler.buttonShadowColor.CGColor;
     btn.layer.shadowOpacity = self.alertStyler.buttonShadowOpacity.floatValue;
     btn.layer.shadowRadius = self.alertStyler.buttonShadowRadius.floatValue;

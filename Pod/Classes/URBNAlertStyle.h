@@ -76,6 +76,8 @@
  */
 @property (nonatomic, strong) UIFont *titleFont;
 
+@property (nonatomic, strong) UIColor *titleBackgroundColor;
+
 /**
  * Alignment of the titles's message
  */
@@ -100,7 +102,9 @@
  * Corner radius of the alert's buttons
  */
 @property (nonatomic, strong) NSNumber *buttonCornerRadius;
-
+@property (nonatomic, strong) NSNumber *buttonBorderWidth;
+@property (nonatomic, strong) UIColor *buttonBorderColor;
+@property (nonatomic, strong) NSNumber *buttonAlignVertically;
 /**
  * Corner radius of the alert view itself
  */
@@ -140,6 +144,7 @@
  * Margin between sections in the alert. ie margin between the title and the message; message and the buttons, etc.
  */
 @property (nonatomic, strong) NSNumber *sectionVerticalMargin;
+@property (nonatomic, strong) NSNumber *messageVerticalMargin;
 
 /**
  * Left & Right margins of the title & message labels
