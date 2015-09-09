@@ -1,4 +1,4 @@
-
+#import <Foundation/Foundation.h>
 
 #pragma mark - App Version
 static inline NSString *applicationVersion() {
