@@ -29,7 +29,7 @@ typedef void(^URBNAlertViewControllerFinishedDismissing)(BOOL wasTouchedOutside)
  *  @return A URBNAlertViewController ready to be configurated further or displayed
  */
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message view:(UIView *)view;
-- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage;
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage view:(UIView *)view;
 
 /**
  *  Initialize with a title and/or message

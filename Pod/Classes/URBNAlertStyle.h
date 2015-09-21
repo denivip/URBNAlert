@@ -105,6 +105,7 @@
 @property (nonatomic, strong) NSNumber *buttonBorderWidth;
 @property (nonatomic, strong) UIColor *buttonBorderColor;
 @property (nonatomic, strong) NSNumber *buttonAlignVertically;
+
 /**
  * Corner radius of the alert view itself
  */
