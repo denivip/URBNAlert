@@ -39,12 +39,13 @@
 @implementation URBNAlertViewController
 
 #pragma mark - Initalizers
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message view:(UIView *)view {
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage view:(UIView *)view {
     self = [super init];
     if (self) {
         self.alertConfig = [URBNAlertConfig new];
         self.alertConfig.title = title;
-        self.alertConfig.message = message;
+        self.alertConfig.message = [attributedMessage string];
+        self.alertConfig.attributedMessage = attributedMessage;
         self.customView = view;
         self.alertController = [URBNAlertController sharedInstance];
         self.alertStyler = [self.alertController.alertStyler copy];
@@ -53,8 +54,17 @@
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message view:(UIView *)view {
+    self = [self initWithTitle:title attributedMessage:[[NSAttributedString alloc] initWithString:message] view:view];
+    return self;
+}
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     return [self initWithTitle:title message:message view:nil];
+}
+
+- (instancetype)initWithTitle:(NSString *)title attributedMessage:(NSAttributedString *)attributedMessage {
+    return [self initWithTitle:title attributedMessage:attributedMessage view:nil];
 }
 
 #pragma mark - Lifecycle

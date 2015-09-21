@@ -273,7 +273,11 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
         _messageTextView.backgroundColor = [UIColor clearColor];
         _messageTextView.font = self.alertStyler.messageFont;
         _messageTextView.textColor = self.alertStyler.messageColor;
-        _messageTextView.text = self.alertConfig.message;
+        if(self.alertConfig.attributedMessage != nil){
+            _messageTextView.attributedText = self.alertConfig.attributedMessage;
+        }else{
+            _messageTextView.text = self.alertConfig.message;
+        }
         _messageTextView.textAlignment = self.alertStyler.messageAlignment;
         _messageTextView.scrollEnabled = NO;
         _messageTextView.editable = NO;
