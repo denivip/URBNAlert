@@ -26,10 +26,6 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
 @property (nonatomic, strong) URBNAlertConfig *alertConfig;
 @property (nonatomic, strong) URBNAlertStyle *alertStyler;
 @property (nonatomic, strong) UIView *titleBgView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UITextView *messageTextView;
-@property (nonatomic, strong) UILabel *errorLabel;
-@property (nonatomic, strong) UIView *customView;
 @property (nonatomic, copy) NSArray *buttons;
 @property (nonatomic, assign) NSInteger sectionCount;
 

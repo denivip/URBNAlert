@@ -82,7 +82,6 @@
             
             [weakSelf dismissAlertViewController:weakAlertVC];
         }];
-        
         // showInView: used
         if (avc.alertConfig.presentationView) {
             CGRect rect = avc.view.frame;

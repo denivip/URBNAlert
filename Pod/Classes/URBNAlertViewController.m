@@ -92,6 +92,11 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissAlert:)];
         [self.view addGestureRecognizer:tapGesture];
     }
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
+    if(self.onBeforeAppearBlock != nil){
+        self.onBeforeAppearBlock();
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

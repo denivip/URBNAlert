@@ -16,6 +16,7 @@
 @class URBNAlertAction;
 
 typedef void(^URBNAlertViewControllerFinishedDismissing)(BOOL wasTouchedOutside);
+typedef void(^URBNAlertViewControllerOnBeforeAppear)();
 
 @interface URBNAlertViewController : UIViewController
 
@@ -154,5 +155,17 @@ typedef void(^URBNAlertViewControllerFinishedDismissing)(BOOL wasTouchedOutside)
  *  @param finishedDismissingBlock Block of code to run
  */
 - (void)setFinishedDismissingBlock:(URBNAlertViewControllerFinishedDismissing)finishedDismissingBlock;
+
+/**
+ *  Used to setup alert details before appearance
+ */
+@property (nonatomic, copy) URBNAlertViewControllerOnBeforeAppear onBeforeAppearBlock;
+
+/**
+ *  Provide a block that will run before the alert appearance
+ *
+ *  @param onbeforeAppearBlock Block of code to run
+ */
+- (void)setOnBeforeAppearBlock:(URBNAlertViewControllerOnBeforeAppear)onBeforeAppearBlock;
 
 @end

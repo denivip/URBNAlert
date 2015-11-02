@@ -18,9 +18,12 @@ typedef void(^URBNAlertViewButtonTouched)(URBNAlertAction *action);
 typedef void(^URBNAlertViewTouched)(URBNAlertAction *action);
 
 @interface URBNAlertView : UIView <UITextFieldDelegate>
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UITextView *messageTextView;
+@property (nonatomic, strong) UILabel *errorLabel;
+@property (nonatomic, strong) UIView *customView;
 
 - (instancetype)initWithAlertConfig:(URBNAlertConfig *)config alertStyler:(URBNAlertStyle *)alertStyler customView:(UIView *)customView;
-
 - (void)setErrorLabelText:(NSString *)errorText;
 - (void)setLoadingState:(BOOL)newState forTextFieldAtIndex:(NSUInteger)index;
 
