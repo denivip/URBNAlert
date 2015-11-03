@@ -168,21 +168,25 @@
  * Opacity of the alert's button's shadows
  */
 @property (nonatomic, strong) NSNumber *buttonShadowOpacity;
+@property (nonatomic, strong) NSNumber *buttonTitleShadowOpacity;
 
 /**
  * Radius of the alert's button's shadows
  */
 @property (nonatomic, strong) NSNumber *buttonShadowRadius;
+@property (nonatomic, strong) NSNumber *buttonTitleShadowRadius;
 
 /**
  * Color of the alert's button's shadows
  */
 @property (nonatomic, strong) UIColor *buttonShadowColor;
+@property (nonatomic, strong) UIColor *buttonTitleShadowColor;
 
 /**
  * Offset of the alert's button's shadows
  */
 @property (nonatomic, assign) CGSize buttonShadowOffset;
+@property (nonatomic, assign) CGSize buttonTitleShadowOffset;
 
 /**
  * Margin around the custom view if supplied

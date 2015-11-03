@@ -165,6 +165,13 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
                 [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
                 [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
             }
+        } else if (self.buttons.count == 3) {
+            self.sectionCount++;
+            // alertStyler.buttonAlignVertically ALWAYS
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-[btnTwo(btnH)]-btnBottomMargin-[btnThree(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1], @"btnThree" : self.buttons[2]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnThree]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnThree" : self.buttons[2]}]];
         }
         // TODO: Handle 3+ buttons with a vertical layout
         
@@ -321,6 +328,10 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
     btn.layer.shadowOpacity = self.alertStyler.buttonShadowOpacity.floatValue;
     btn.layer.shadowRadius = self.alertStyler.buttonShadowRadius.floatValue;
     btn.layer.shadowOffset = self.alertStyler.buttonShadowOffset;
+    btn.titleLabel.layer.shadowColor = self.alertStyler.buttonTitleShadowColor.CGColor;
+    btn.titleLabel.layer.shadowOpacity = self.alertStyler.buttonTitleShadowOpacity.floatValue;
+    btn.titleLabel.layer.shadowRadius = self.alertStyler.buttonTitleShadowRadius.floatValue;
+    btn.titleLabel.layer.shadowOffset = self.alertStyler.buttonTitleShadowOffset;
     btn.tag = index;
     btn.actionType = action.actionType;
     btn.alertStyler = self.alertStyler;

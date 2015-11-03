@@ -138,6 +138,18 @@
     return _buttonShadowColor ?: [UIColor clearColor];
 }
 
+- (NSNumber *)buttonTitleShadowOpacity {
+    return _buttonTitleShadowOpacity ?: @0;
+}
+
+- (NSNumber *)buttonTitleShadowRadius {
+    return _buttonTitleShadowRadius ?: @0;
+}
+
+- (UIColor *)buttonTitleShadowColor {
+    return _buttonTitleShadowColor ?: [UIColor clearColor];
+}
+
 #pragma mark - Alert View
 - (NSNumber *)alertCornerRadius {
     return _alertCornerRadius ?: @8;
@@ -306,6 +318,10 @@
     styler.buttonShadowRadius = self.buttonShadowRadius;
     styler.buttonShadowColor = self.buttonShadowColor;
     styler.buttonShadowOffset = self.buttonShadowOffset;
+    styler.buttonTitleShadowOpacity = self.buttonTitleShadowOpacity;
+    styler.buttonTitleShadowRadius = self.buttonTitleShadowRadius;
+    styler.buttonTitleShadowColor = self.buttonTitleShadowColor;
+    styler.buttonTitleShadowOffset = self.buttonTitleShadowOffset;
     
     styler.sectionVerticalMargin = self.sectionVerticalMargin;
     styler.messageVerticalMargin = self.messageVerticalMargin;
