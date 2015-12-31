@@ -172,6 +172,23 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
             [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
             [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
             [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnThree]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnThree" : self.buttons[2]}]];
+        } else if (self.buttons.count == 4) {
+            self.sectionCount++;
+            // alertStyler.buttonAlignVertically ALWAYS
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-[btnTwo(btnH)]-btnBottomMargin-[btnThree(btnH)]-btnBottomMargin-[btnFour(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1], @"btnThree" : self.buttons[2], @"btnFour" : self.buttons[3]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnThree]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnThree" : self.buttons[2]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnFour]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnFour" : self.buttons[3]}]];
+        } else if (self.buttons.count == 5) {
+            self.sectionCount++;
+            // alertStyler.buttonAlignVertically ALWAYS
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-btnTopMargin-[btnOne(btnH)]-btnBottomMargin-[btnTwo(btnH)]-btnBottomMargin-[btnThree(btnH)]-btnBottomMargin-[btnFour(btnH)]-btnBottomMargin-[btnFive(btnH)]-btnBottomMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject, @"btnTwo" : self.buttons[1], @"btnThree" : self.buttons[2], @"btnFour" : self.buttons[3], @"btnFive" : self.buttons[4]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnOne]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnOne" : self.buttons.firstObject}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnTwo]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnTwo" : self.buttons[1]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnThree]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnThree" : self.buttons[2]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnFour]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnFour" : self.buttons[3]}]];
+            [buttonContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-btnLeftMargin-[btnFive]-btnRightMargin-|" options:0 metrics:metrics views:@{@"btnFive" : self.buttons[4]}]];
         }
         // TODO: Handle 3+ buttons with a vertical layout
         
@@ -339,7 +356,14 @@ static NSInteger const kURBNAlertViewHeightPadding = 80.f;
     [btn setTitle:action.title forState:UIControlStateNormal];
     [btn setTitleColor:titleColor forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(buttonTouch:) forControlEvents:UIControlEventTouchUpInside];
-    
+    if(action.rightIcon != nil){
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        btn.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+        UIImageView* icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:action.rightIcon]];
+        [btn addSubview:icon];
+        icon.center = CGPointMake(btn.frame.size.width - 20,btn.frame.size.height/2);
+        icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    }
     return btn;
 }
 

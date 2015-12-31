@@ -25,7 +25,7 @@ typedef void(^URBNAlertCompletion)(URBNAlertAction *action);
 @property (nonatomic, assign) BOOL dismissOnCompletion;
 @property (nonatomic, assign) URBNAlertActionType actionType;
 @property (nonatomic, weak) URBNAlertActionButton *actionButton;
-
+@property (nonatomic, strong) NSString* rightIcon;
 @property (nonatomic, copy) URBNAlertCompletion completionBlock;
 - (void)setCompletionBlock:(URBNAlertCompletion)completionBlock;
 
